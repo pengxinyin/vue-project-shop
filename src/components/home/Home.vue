@@ -19,16 +19,18 @@
             </el-row>
 
         </el-header>
+        <!-- 侧边栏导航开始 -->
         <el-container>
             <el-aside width="200px" class="aside">
-                 <el-menu>
+                <!-- 开启路由模式为true:router="true" -->
+                 <el-menu :router="true" :unique-opened="true">
                     <el-submenu index="1">
                         <template slot="title">
                             <i class="el-icon-user-solid"></i>
                             <span>用户管理</span>
                         </template>
                         <el-menu-item-group>
-                             <el-menu-item index="1-2">
+                             <el-menu-item index="users">
                                 <i class="el-icon-edit"></i>
                                 <span>用户列表</span>
                             </el-menu-item>
@@ -111,7 +113,9 @@
 
 
             </el-aside>
-            <el-main class="main">Main</el-main>
+            <el-main class="main">
+                <router-view></router-view>
+            </el-main>
         </el-container>
         </el-container>
     </div>
@@ -163,7 +167,7 @@ export default {
     
 }
 .aside{
-    background-color: #D3DCE6;
+    background-color: #fff
    
 }
 .main{

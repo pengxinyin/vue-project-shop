@@ -42,7 +42,7 @@ export default {
                     // 登录成功保存token的值
                    window.localStorage.setItem('token', data.token)
                     // 跳转首页
-                    this.$router.push('/home') 
+                    this.$router.push({name:'home'}) 
                     // 提示成功
                      this.$message.success(msg)
                 }else{
