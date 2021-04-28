@@ -14,7 +14,7 @@
         </el-form-item>
         <el-button
             @click.prevent= "handleLogin()"
-            class="login-btn" type="primary">登录</el-button>
+            class="login-btn" type="primary" >登录</el-button>
     </el-form>
   </div>
 </template>
@@ -42,7 +42,7 @@ export default {
                     // 登录成功保存token的值
                    window.localStorage.setItem('token', data.token)
                     // 跳转首页
-                    this.$router.push({name:'home'}) 
+                    this.$router.push('/home') 
                     // 提示成功
                      this.$message.success(msg)
                 }else{
