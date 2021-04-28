@@ -17,7 +17,7 @@
                 <!-- 表格 -->
                 <el-table
                     class="table-box"
-                    :data="tableData"
+                    :data="userslist"
                     border
                     style="width: 100%"
                    >
@@ -27,7 +27,7 @@
                         width="60">
                     </el-table-column>
                     <el-table-column
-                        prop="name"
+                        prop="username"
                         label="姓名"
                         width="180">
                     </el-table-column>
@@ -37,24 +37,51 @@
                         width="180">
                     </el-table-column>
                      <el-table-column
-                        prop="phone"
+                        prop="mobile"
                         label="电话"
                         width="180">
                     </el-table-column>
+
                      <el-table-column
-                        prop="createTime"
+                        prop="create_time"
                         label="创建时间"
                         width="180">
+                        <!-- 如果单元格内显示的内容不是字符串(文本)，粗腰个被显示的内容外层包裹一个template -->
+                       
+                       <!-- template 内部要用数据  设置slot-scope属性
+                       该属性的值是需要用数据create_time的数据源userslist -->
+
+                       <!-- slot-scope 的值userlist其实就是el-table绑定的数据userslist 
+                       userslist.row 数据中的每个对象 -->
+                        <template slot-scope="userslist">
+                            {{userslist.row.create_time | fmtdate}}
+                        </template>
                     </el-table-column>
+
                      <el-table-column
-                        prop="state"
+                        prop="mg_state"
                         label="用户状态"
                         width="180">
+                        <template slot-scope="scope">
+                            <el-switch
+                                v-model="scope.row.mg_state"
+                                active-color="#13ce66"
+                                inactive-color="#ff4949">
+                            </el-switch>
+                        </template>
+                        
                     </el-table-column>
                      <el-table-column
                         prop="operation"
                         label="操作"
                         width="180">
+                        <template slot-scope="scope">
+                            
+                                <el-button size="mini" plain type="primary" icon="el-icon-edit" circle></el-button>
+                                <el-button size="mini" plain type="danger" icon="el-icon-delete" circle></el-button>
+                                <el-button size="mini" plain type="success" icon="el-icon-check" circle></el-button>
+                            
+                        </template>
                     </el-table-column>
                 </el-table>
           </el-col>
@@ -66,23 +93,19 @@
   </el-card>
 </template>
 
+
+
 <script>
 export default {
     data(){
         return {
             query:'',
-            pagenum:1,
-            pagesize:2,
-            tableData: [{
-                date: '2016-05-02',
-                name: '王小虎',
-                address: '上海市普陀区金沙江路 1518 弄',
-                }, {
-                date: '2016-05-04',
-                name: '王小虎',
-                address: '上海市普陀区金沙江路 1518 弄'
-                }, 
-            ]
+            // 表格绑定数据
+            userslist: [],
+             // 分页相关数据
+             total:-1,
+             pagenum:1,
+             pagesize:2,
         }
     },
     created(){
@@ -96,9 +119,22 @@ export default {
             // 不能拿数据的原因 后端文档接口 需要授权的 API ，必须在请求头中使用 `Authorization` 字段提供 `token` 令牌
             const AUTH_TOKEN = localStorage.getItem('token')
             this.$http.defaults.headers.common['Authorization'] = AUTH_TOKEN
-            const res = await this.$http.get(`users?query=${this.query}&pagenum=${this.pagenum}&pagesize=${this.pagesize}`)
+            const res = await this.$http.get(`/users?query=${this.query}&pagenum=${this.pagenum}&pagesize=${this.pagesize}`)
 
-            console.log(res);
+            // console.log(res);
+            const {meta:{status,msg},data:{users,total}} = res.data
+            if(status === 200){
+                // 给表格数据赋值
+                this.userslist = users
+                // console.log(this.userslist);
+                // 给total赋值
+                this.total = total
+                // 提示
+                this.$message.success(msg)
+            }else{
+                // 提示
+                this.$message.error(msg)
+            }
         }
     },
 }
