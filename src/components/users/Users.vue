@@ -7,10 +7,10 @@
             <el-breadcrumb-item>用户列表</el-breadcrumb-item>
         </el-breadcrumb>
       <!-- 搜索 -->
-      <el-row class="searceRow">
+      <el-row class="searceRow" style="width:71%">
           <el-col>
                <el-input placeholder="请输入内容" v-model="query" class="inputSearch"> 
-                    <el-button slot="append" icon="el-icon-search"></el-button>
+                    <el-button @click="searchUser()"  slot="append" icon="el-icon-search"></el-button>
                 </el-input>
                 <el-button type="primary">添加用户</el-button>
 
@@ -45,7 +45,7 @@
                      <el-table-column
                         prop="create_time"
                         label="创建时间"
-                        width="180">
+                        width="189">
                         <!-- 如果单元格内显示的内容不是字符串(文本)，粗腰个被显示的内容外层包裹一个template -->
                        
                        <!-- template 内部要用数据  设置slot-scope属性
@@ -75,15 +75,26 @@
                         prop="operation"
                         label="操作"
                         width="180">
-                        <template slot-scope="scope">
+                        <!-- <template slot-scope="scope"> -->
                             
                                 <el-button size="mini" plain type="primary" icon="el-icon-edit" circle></el-button>
                                 <el-button size="mini" plain type="danger" icon="el-icon-delete" circle></el-button>
                                 <el-button size="mini" plain type="success" icon="el-icon-check" circle></el-button>
                             
-                        </template>
+                        <!-- </template> -->
                     </el-table-column>
                 </el-table>
+
+                <!-- 分页 -->
+                 <el-pagination
+                    @size-change="handleSizeChange"
+                    @current-change="handleCurrentChange"
+                    :current-page="pagenum"
+                    :page-sizes="[2, 4,6, 8]"
+                    :page-size="2"
+                    layout="total, sizes, prev, pager, next, jumper"
+                    :total="total">
+                    </el-pagination>
           </el-col>
       </el-row>
 
@@ -99,6 +110,7 @@
 export default {
     data(){
         return {
+
             query:'',
             // 表格绑定数据
             userslist: [],
@@ -112,6 +124,25 @@ export default {
         this.getUserList();
     },
     methods: {
+
+        // 搜索用户
+        searchUser(){
+            // 按照input绑定的query参数发请求
+            this.getUserList()
+        },
+
+
+        handleSizeChange(val) {
+            this.pagesize = val
+            
+            this.getUserList()
+            // console.log(`每页 ${val} 条`);
+        },
+        handleCurrentChange(val) {
+            // console.log(`当前页: ${val}`); 
+            this.pagenum = val
+            this.getUserList()
+        },
         async  getUserList(){
             //query 查询参数  可以为空
             // pagenum 当前页码  不能为空
