@@ -40,7 +40,7 @@ export default {
                 // 登录成功 跳转首页 提示成功
                 if(status === 200){
                     // 登录成功保存token的值
-                    sessionStorage.setItem('',data.token)
+                   window.localStorage.setItem('token', data.token)
                     // 跳转首页
                     this.$router.push({name:'home'}) 
                     // 提示成功

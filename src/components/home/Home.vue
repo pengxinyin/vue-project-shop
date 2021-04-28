@@ -20,7 +20,97 @@
 
         </el-header>
         <el-container>
-            <el-aside width="200px" class="aside">Aside</el-aside>
+            <el-aside width="200px" class="aside">
+                 <el-menu>
+                    <el-submenu index="1">
+                        <template slot="title">
+                            <i class="el-icon-user-solid"></i>
+                            <span>用户管理</span>
+                        </template>
+                        <el-menu-item-group>
+                             <el-menu-item index="1-2">
+                                <i class="el-icon-edit"></i>
+                                <span>用户列表</span>
+                            </el-menu-item>
+                        
+                        </el-menu-item-group>
+                    </el-submenu>
+                    <el-submenu index="2">
+                        <template slot="title">
+                            <i class="el-icon-s-help"></i>
+                            <span>权限管理</span>
+                        </template>
+                        <el-menu-item-group>
+                             <el-menu-item index="1-2">
+                                <i class="el-icon-location"></i>
+                                <span>角色列表</span>
+                            </el-menu-item>
+                            
+                            <el-menu-item index="1-2">
+                                <i class="el-icon-location"></i>
+                                <span>权限列表</span>
+                            </el-menu-item>
+                        </el-menu-item-group>    
+                    </el-submenu>
+                      <el-submenu index="3">
+                        <template slot="title">
+                            <i class="el-icon-shopping-bag-2"></i>
+                            <span>商品管理</span>
+                        </template>
+                        <el-menu-item-group>
+                             <el-menu-item index="1-2">
+                                <i class="el-icon-location"></i>
+                                <span>商品列表</span>
+                            </el-menu-item>
+                            
+                            <el-menu-item index="1-2">
+                                <i class="el-icon-notebook-1"></i>
+                                <span>分类参数</span>
+                            </el-menu-item>
+                             <el-menu-item index="1-2">
+                                <i class="el-icon-location"></i>
+                                <span>商品分类</span>
+                            </el-menu-item>
+                        </el-menu-item-group> 
+                    </el-submenu>
+                      <el-submenu index="4">
+                        <template slot="title">
+                            <i class="el-icon-edit"></i>
+                            <span>订单管理</span>
+                        </template>
+                        <el-menu-item-group>
+                             <el-menu-item index="1-2">
+                                <i class=""></i>
+                                <span>订单列表</span>
+                            </el-menu-item>
+                            
+                            <el-menu-item index="1-2">
+                                <i class="el-icon-location"></i>
+                                <span>选项2</span>
+                            </el-menu-item>
+                        </el-menu-item-group> 
+                    </el-submenu>
+                      <el-submenu index="5">
+                        <template slot="title">
+                            <i class="el-icon-pie-chart"></i>
+                            <span>数据统计</span>
+                        </template>
+                        <el-menu-item-group>
+                             <el-menu-item index="1-2">
+                                <i class="el-icon-date"></i>
+                                <span>数据报表</span>
+                            </el-menu-item>
+                            
+                            <el-menu-item index="1-2">
+                                <i class="el-icon-location"></i>
+                                <span>选项2</span>
+                            </el-menu-item>
+                        </el-menu-item-group>  
+                    </el-submenu>
+                 </el-menu>
+
+
+            </el-aside>
             <el-main class="main">Main</el-main>
         </el-container>
         </el-container>
@@ -30,10 +120,26 @@
 <script>
 export default {
 
+    //new Vue 之前自动触发
+    beforeCreate(){
+        // 获取token
+        const token = localStorage.getItem('token')
+        // console.log(token);
+        
+        // token没有-》登录
+        if(!token){
+            this.$router.push({name:'login'})
+        }
+        // 如果有就继续渲染组件
+        
+    }
 }
 </script>
 
 <style>
+.home{
+    height: 100% ;
+}
 .container{
      height: 100% ;
 }
@@ -47,10 +153,12 @@ export default {
     
 }
 .aside{
-     background-color: #D3DCE6;
+    background-color: #D3DCE6;
+   
 }
 .main{
     background-color: #E9EEF3;
+    
 }
 
 /* 头部样式开始 */
