@@ -31,11 +31,12 @@ export default {
     },
     methods:{
         // 登录请求
-        handleLogin(){
-            this.$http.post('/login',this.formdata).then(res=>{
+        // 让异步操作的代码  看起来像同步代码  async await
+       async handleLogin(){
+           // 异步操作
+           const res = await this.$http.post('/login',this.formdata)
                 // console.log(res);
                 const {data,meta:{msg,status}} = res.data
-
                 // 登录成功 跳转首页 提示成功
                 if(status === 200){
                     // 跳转首页
@@ -46,8 +47,23 @@ export default {
                     // 登录不成功  不成功提示
                     this.$message.error(msg);
                 }
+
+        //     this.$http.post('/login',this.formdata).then(res=>{
+        //         // console.log(res);
+        //         const {data,meta:{msg,status}} = res.data
+
+        //         // 登录成功 跳转首页 提示成功
+        //         if(status === 200){
+        //             // 跳转首页
+        //             this.$router.push({name:'home'})
+        //             // 提示成功
+        //              this.$message.success(msg)
+        //         }else{
+        //             // 登录不成功  不成功提示
+        //             this.$message.error(msg);
+        //         }
                 
-            })
+        //     })
         }
     }
 }
